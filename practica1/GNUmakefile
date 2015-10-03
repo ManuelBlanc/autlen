@@ -1,8 +1,12 @@
 
-EXES = wc EL
+# Conf. var implicitas
+LEX=flex
+
+# Mis variables
+exes = wc EL telefonos
 
 .PHONY: all clean
 
-all: $(EXES)
+all: $(exes)
 clean:
-	$(RM) *.o $(EXES)
+	$(RM) *.o $(exes)

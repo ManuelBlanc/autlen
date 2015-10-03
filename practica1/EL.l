@@ -1,6 +1,7 @@
 
 %{
 #include <stdio.h>
+#include <ctype.h>
 %}
 
 %option noyywrap
