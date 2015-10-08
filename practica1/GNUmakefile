@@ -3,7 +3,7 @@
 LEX=flex
 
 # Mis variables
-exes = wc EL telefonos
+exes = wc EL telefonos puzzle cifrado
 
 .PHONY: all clean
 
