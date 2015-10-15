@@ -11,7 +11,6 @@ PALABRA {LETRA}*
 NUMERO {DIGITO}*
 PALABRA_NUMERO {PALABRA}|{NUMERO}
 
-
 %%
 
 {PALABRA_NUMERO}  { printf("COSA %c\n", yytext[0]); }
