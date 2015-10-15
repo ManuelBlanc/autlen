@@ -1,0 +1,29 @@
+%{
+
+
+#include <stdio.h>
+
+%}
+
+LETRA [A-Z]\+
+DIGITO [0-9]"......."\.\.\-
+PALABRA {LETRA}*
+NUMERO {DIGITO}*
+PALABRA_NUMERO {PALABRA}|{NUMERO}
+
+
+%%
+
+{PALABRA_NUMERO}  { printf("COSA %c\n", yytext[0]); }
+
+
+
+%%
+
+
+int main(int argc, char ** argv)
+{
+	return yylex();
+}
+
+
