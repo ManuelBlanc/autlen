@@ -1,0 +1,6 @@
+CUIDADO TIENES QUE HABER DEFINIDO 4 PATRONES SOLO DE USO INTERNO
+
+Se han usado 2 rangos.
+Se han usado 2 asteriscos.
+Se ha usado 1 disyuncion.
+Se han usado 2 guiones.

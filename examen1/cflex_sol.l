@@ -43,12 +43,13 @@ static void contar_metacaracteres_en_patron(char* chr, int len);
 %option noyywrap
 
 ID_PATRON	[A-Za-z][A-Za-z_]*
+ESPACIO  	[ \t]
 
 %%
 
   /* Bloque de patrones */
-<INITIAL>^{ID_PATRON}[ \t]+(.|[ \t])+$	{ patrones++; contar_metacaracteres_en_patron(yytext, yyleng);	}
-<INITIAL>^"%%"$                       	{ BEGIN(modo_acciones);                                       	}
+<INITIAL>^{ID_PATRON}{ESPACIO}+(.|{ESPACIO})+$	{ patrones++; contar_metacaracteres_en_patron(yytext, yyleng);	}
+<INITIAL>^"%%"$                               	{ BEGIN(modo_acciones);                                       	}
 
   /* Bloque de acciones */
 <modo_acciones>^"{"{ID_PATRON}"}"	{ acciones++;	}
@@ -80,33 +81,28 @@ static void contar_metacaracteres_en_patron(char* str, int len)
 	}
 }
 
+static FILE* abrir_fichero(const char* path, const char* mode) {
+	FILE* fichero = fopen(path, mode);
+	if (NULL == fichero) {
+		fprintf(stderr, "No se ha podido abrir el fichero %s\n", path);
+		exit(EXIT_FAILURE);
+	}
+	return fichero;
+}
+
 
 int main(int argc, char const *argv[])
 {
 	argc--;
-	// Si tenemos mas de 2 argumentos abrimos los dos ficheros especificados
+	// Si tenemos mas de 2 argumentos abrimos los tres ficheros especificados
 	if (argc >= 2) {
-		const char* fichero;
-
-		// Fichero de entrada
-		fichero = argv[1];
-		yyin = fopen(fichero, "r");
-		if (NULL == yyin) {
-			fprintf(stderr, "No se ha podido abrir el fichero %s\n", fichero);
-			return 1;
-		}
-
-		// Fichero de salida
-		fichero = argv[2];
-		yyout = fopen(fichero, "w");
-		if (NULL == yyout) {
-			fprintf(stderr, "No se ha podido abrir el fichero %s\n", fichero);
-			return 1;
-		}
+		yyin  = abrir_fichero(argv[1], "r");
+		yyout = abrir_fichero(argv[2], "w");
 	}
 	// En caso contrario, debemos tener 0 argumentos (excluimos el caso de 1 argumento)
 	else if (argc != 0) {
-		fprintf(stderr, "Modo de operacion no reconocido (%d argumentos)\n)", argc);
+		fprintf(stderr, "Modo de operacion no reconocido (%d argumentos)\n", argc);
+		return EXIT_FAILURE;
 	}
 
 	// Procesamos la entrada
@@ -136,5 +132,6 @@ int main(int argc, char const *argv[])
 		}
 	}
 
-	return 0;
+	// Fin, exito
+	return EXIT_SUCCESS;
 }
