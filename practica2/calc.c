@@ -1,7 +1,10 @@
-// calc.c -- El main
+
+// calc.c  -- El main
+
+int yyparse(void);
 
 int main(int argc, char const *argv[])
 {
-	/* code */
+	yyparse();
 	return 0;
 }
