@@ -7,7 +7,6 @@
 
 #include "calc.lexer.h"
 
-int yyparse(void);
 void yyerror(const char* str);
 
 %}
