@@ -13,16 +13,17 @@ void yyerror(const char* str);
 
 // Estructura yylval
 %union {
-   char     id[16+1];
-   double   num;
+	long   entero;
+	double real;
 }
 
-
 // Definiciones de terminales
-%token <num> TOK_CONST
+%token <entero> TOK_ENTERO
+%token <real>   TOK_REAL
 
 // Definciones de no-terminales
-%type <num> main exp
+%type <entero> exp_i
+%type <real>   exp_r
 
 // Axioma
 %start main
@@ -31,21 +32,32 @@ void yyerror(const char* str);
 %left  '+' '-'
 %left  '*' '/'
 
-
 %%
 
-main	: exp { printf("Resultado final: %lf\n", $1);}
+main	: exp_i { printf("Resultado final (entero) : %li\n", $1);}
+    	| exp_r { printf("Resultado final (real)   : %lf\n", $1);}
     	;
 
-exp	: exp '+' exp	{ $$ = $1 + $3;          	}
-   	| exp '-' exp	{ $$ = $1 - $3;          	}
-   	| exp '*' exp	{ $$ = $1 * $3;          	}
-   	| exp '/' exp	{ $$ = $1 / $3; return 2;	}
-   	| '+' exp    	{ $$ = + $2;             	}
-   	| '-' exp    	{ $$ = - $2;             	}
-   	| '(' exp ')'	{ $$ = $2;               	}
-   	| TOK_CONST  	{ $$ = $1;               	}
-   	;
+exp_i	: exp_i '+' exp_i	{ $$ = $1 + $3;	}
+     	| exp_i '-' exp_i	{ $$ = $1 - $3;	}
+     	| exp_i '*' exp_i	{ $$ = $1 * $3;	}
+     	| exp_i '/' exp_i	{ $$ = $1 / $3;	}
+     	| '+' exp_i      	{ $$ = +$2;    	}
+     	| '-' exp_i      	{ $$ = -$2;    	}
+     	| '(' exp_i ')'  	{ $$ = $2;     	}
+     	| TOK_ENTERO     	{ $$ = $1;     	}
+     	;
+
+exp_r	: exp_r '+' exp_r	{ $$ = $1 + $3;	}
+     	| exp_r '-' exp_r	{ $$ = $1 - $3;	}
+     	| exp_r '*' exp_r	{ $$ = $1 * $3;	}
+     	| exp_r '/' exp_r	{ $$ = $1 / $3;	}
+     	| '+' exp_r      	{ $$ = +$2;    	}
+     	| '-' exp_r      	{ $$ = -$2;    	}
+     	| '(' exp_r ')'  	{ $$ = $2;     	}
+     	| TOK_REAL       	{ $$ = $1;     	}
+     	;
+
 
 %%
 

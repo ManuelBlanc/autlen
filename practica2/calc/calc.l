@@ -3,6 +3,7 @@
 // calc.l -- El lexer
 
 #include <stdlib.h>
+
 #include "calc.parser.h"
 
 %}
@@ -19,9 +20,10 @@ OPERADOR	[+\-*/()]
 
 %%
 
-{REAL}|{ENTERO}	{ yylval.num = strtod(yytext, NULL); return TOK_CONST;	}
-{OPERADOR}     	{ return *yytext;                                     	}
-[[:space:]]    	{ /* Ignorado */                                      	}
+{ENTERO}   	{ yylval.entero = strtol(yytext, NULL, 10); return TOK_ENTERO;	}
+{REAL}     	{ yylval.real   = strtod(yytext, NULL);     return TOK_REAL;  	}
+{OPERADOR} 	{ return *yytext;                                             	}
+[[:space:]]	{ /* Ignorado */                                              	}
 
 %%
 
