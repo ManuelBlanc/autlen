@@ -1,6 +1,7 @@
 # Ejecutables
 calc/calc
 cifrado/cifrado
+bool/bool
 
 # Generados
 *.lexer.[ch]
