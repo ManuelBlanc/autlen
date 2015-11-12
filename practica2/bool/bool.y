@@ -40,8 +40,8 @@ static void evaluar(int val);
 %start main
 
 // Operador
-%left TOK_NOT
 %left TOK_AND TOK_OR TOK_NAND TOK_NOR
+%right TOK_NOT
 
 %%
 
