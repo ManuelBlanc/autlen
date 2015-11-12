@@ -4,7 +4,10 @@
 
 #include <stdlib.h>
 
+#include "calc.h"
 #include "calc.parser.h"
+
+#define RETURN_TOKEN(tok) MACRO_BODY( yylval.n.tipo = (tok); return (tok); )
 
 %}
 
@@ -20,10 +23,10 @@ OPERADOR	[+\-*/()]
 
 %%
 
-{ENTERO}   	{ yylval.entero = strtol(yytext, NULL, 10); return TOK_ENTERO;	}
-{REAL}     	{ yylval.real   = strtod(yytext, NULL);     return TOK_REAL;  	}
-{OPERADOR} 	{ return *yytext;                                             	}
-[[:space:]]	{ /* Ignorado */                                              	}
+{ENTERO}   	{ yylval.n.entero = strtol(yytext, NULL, 10); RETURN_TOKEN(TOK_ENTERO);	}
+{REAL}     	{ yylval.n.real   = strtod(yytext, NULL);     RETURN_TOKEN(TOK_REAL);  	}
+{OPERADOR} 	{ return *yytext;                                                      	}
+[[:space:]]	{ /* Ignorado */                                                       	}
 
 %%
 
