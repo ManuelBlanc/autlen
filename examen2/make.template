@@ -1,0 +1,38 @@
+
+## Variables de configuracion
+## -------------------------------------------------------------------
+CFLAGS     	= -Wall
+LDLIBS     	= -lm
+FLEX_FLAGS 	=
+BISON_FLAGS	=
+
+## Dependencias automaticas (.h)
+## -------------------------------------------------------------------
+#srcs := $(wildcard *.c)
+#CFLAGS += -MMD
+#-include $(srcs:.c=.d)
+
+## Pseudo-objetivos
+## -------------------------------------------------------------------
+.PHONY: all clean
+.DEFAULT: all
+
+all: $(exes)
+clean:
+	$(RM) *.o *.d *.parser.[ch] *.lexer.[ch] $(exes)
+
+
+# Recetas
+# -------------------------------------------------------------------
+%.lexer.c %.lexer.h: %.l
+	flex $(FLEX_FLAGS) --outfile=$*.lexer.c --header-file=$*.lexer.h $<
+%.parser.c %.parser.h: %.y
+	bison $(BISON_FLAGS) --output-file=$*.parser.c --defines=$*.parser.h $<
+
+# Reconocemos cuando se pide un .o
+%.lexer.o: %.lexer.c
+%.parser.o: %.parser.c
+
+# Borramos las por-defecto
+%.c: %.l
+%.c: %.y
