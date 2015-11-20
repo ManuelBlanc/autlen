@@ -30,3 +30,7 @@
 
 # Debug files
 *.dSYM/
+
+# Generated files
+*.lexer.[ch]
+*.parser.[ch]
